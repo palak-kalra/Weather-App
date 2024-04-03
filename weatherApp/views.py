@@ -14,6 +14,6 @@ def home(request):
         icon=required_data["current"]["condition"]["icon"]
         condition=required_data["current"]["condition"]["text"]
         humidity=required_data["current"]["humidity"]
-        data={"place":place,"time":time,"deg_celcius":deg_celcius,"icon":icon,"condition":condition,"humidity":humidity}
+        data={"place":place,"time":time,"deg_celcius":deg_celcius,"icon":icon,"condition":condition,"humidity":humidity,"Show":True}
         return render(request,"index.html",context=data)
-    return render(request,"index.html")
+    return render(request,"index.html",{"Show":False})
