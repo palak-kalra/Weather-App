@@ -9,11 +9,17 @@ def home(request):
         parms={"key":API_KEY,"q":place}
         response=re.request(url="http://api.weatherapi.com/v1/current.json",method="get",params=parms)
         required_data=response.json()
-        time=required_data["location"]["localtime"]
-        deg_celcius=required_data["current"]["temp_c"]
-        icon=required_data["current"]["condition"]["icon"]
-        condition=required_data["current"]["condition"]["text"]
-        humidity=required_data["current"]["humidity"]
-        data={"place":place,"time":time,"deg_celcius":deg_celcius,"icon":icon,"condition":condition,"humidity":humidity,"Show":True}
+
+        if response.status_code!=200:
+            error_msg=required_data["error"]["message"]
+            data={"msg":error_msg,"error":True}
+        else:
+            time=required_data["location"]["localtime"]
+            deg_celcius=required_data["current"]["temp_c"]
+            icon=required_data["current"]["condition"]["icon"]
+            condition=required_data["current"]["condition"]["text"]
+            humidity=required_data["current"]["humidity"]
+            data={"place":place,"time":time,"deg_celcius":deg_celcius,"icon":icon,"condition":condition,"humidity":humidity,"Show":True}
+        
         return render(request,"index.html",context=data)
     return render(request,"index.html",{"Show":False})
